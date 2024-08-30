@@ -567,3 +567,76 @@ print(response.status_code)  # Outputs: 200
 #Django: For building more complex web applications.
 #BeautifulSoup: For web scraping.
 
+# For backend integration 
+# Set Up a RESTful API
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+# Sample data
+data = [
+    {"id": 1, "name": "Item 1"},
+    {"id": 2, "name": "Item 2"},
+]
+
+@app.route('/items', methods=['GET'])
+def get_items():
+    return jsonify(data)
+
+@app.route('/items', methods=['POST'])
+def add_item():
+    new_item = request.json
+    data.append(new_item)
+    return jsonify(new_item), 201
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# Run the script and access your API at http://127.0.0.1:5000/items.
+
+# Connect to a Database
+# Integrate SQLAlchemy with Flask
+from flask import Flask, jsonify
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+db = SQLAlchemy(app)
+
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+@app.route('/items', methods=['GET'])
+def get_items():
+    items = Item.query.all()
+    return jsonify([{"id": item.id, "name": item.name} for item in items])
+
+if __name__ == '__main__':
+    db.create_all()  # Create the database and tables
+    app.run(debug=True)
+
+# Authentication
+# Example with Flask-JWT-Extended 
+from flask import Flask, jsonify
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+
+app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = 'your_secret_key'
+jwt = JWTManager(app)
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.json.get('username')
+    password = request.json.get('password')
+    # Here you should verify the username and password
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token)
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    return jsonify(message='Protected endpoint')
+
+if __name__ == '__main__':
+    app.run(debug=True)
