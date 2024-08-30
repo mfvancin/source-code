@@ -86,7 +86,8 @@ from tensorflow.python.keras.models import load_model
 loaded_model = load_model('my_model.h5')
 
 # Using Pre-trained Models
-from tensorflow.python.keras.applications import VGG16
+from tensorflow.python.keras import applications
+VGG16 = applications.VGG16
 
 # Load the VGG16 model pre-trained on ImageNet
 base_model = VGG16(weights='imagenet', include_top=False)
@@ -271,7 +272,8 @@ output_data = interpreter.get_tensor(output_details[0]['index'])
 print(output_data)
 
 # Working with Image Data
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.python.keras import preprocessing
+ImageDataGenerator = preprocessing.image.ImageDataGenerator
 
 # Data augmentation
 datagen = ImageDataGenerator(
