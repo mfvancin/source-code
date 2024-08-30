@@ -36,7 +36,8 @@ print("Sum Tensor:\n", sum_tensor.numpy())
 print("Product Tensor:\n", product_tensor.numpy())
 
 # Building a Simple Neural Network
-from tensorflow.python.keras.datasets import mnist
+from tensorflow.python.keras import datasets
+mnist = datasets.mnist
 
 # Load data
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
